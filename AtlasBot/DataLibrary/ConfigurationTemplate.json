@@ -1,0 +1,18 @@
+﻿//This is a JSON file that will be used later down the line. Current one can be found on GitHub!
+{
+  "keys": {
+    "riotAPI": "KEYHERE", //Place the RiotAPI key here, get a product key instead of development!
+    "discordKey": "KEYHERE", //Place the "Bot User Token"
+    "smashLadderHash": "KEYHERE", //Hash from SmashLadder
+    "championGGAPIKey": "KEYHERE" //API key gotten from Champion.gg
+  },
+  "names": {
+    "botname": "NAME", //The name of the bot in use
+    "systemname": "NAME", //The name of the system you are working on/for
+    "smashladder": "NAME" //The name that SmashLadder currently has
+  },
+  "ownerIds": [
+    0000000000 //Place , for multiple Owners
+  ]
+}
+

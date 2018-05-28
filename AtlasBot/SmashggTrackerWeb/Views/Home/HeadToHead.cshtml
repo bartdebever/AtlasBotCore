@@ -1,0 +1,331 @@
+﻿@using SmashggTrackerWeb.Models.HeadToHead
+@model List<SmashggTracker.Models.Match>
+
+@{
+    ViewBag.Title = "Head-To-Head";
+    string p1 = ViewBag.Player1;
+    string p2 = ViewBag.Player2;
+    var matches = Model.Where(x => x.Winner != null);
+    var p1SetWins = matches.Count(x => x.Winner.Name.Equals(p1));
+    var p2SetWins = matches.Count(x => x.Winner.Name.Equals(p2));
+    foreach (var match in Model)
+    {
+        match.Date = new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(match.DateDouble);
+    }
+    var latest = Model.Max(x => x.Date);
+    var latestGame = Model.FirstOrDefault(x => x.Date == latest);
+}
+
+<h2>Head-To-Head @ViewBag.Player1 vs @ViewBag.Player2 </h2>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">@ViewBag.Player1</div>
+            <div class="panel-body"><center>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg/600px-Default_profile_picture_%28male%29_on_Facebook.jpg" width="150" height="150" id="picP1"/>
+                </center>
+               
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Name</td>
+                        <td id="nameP1"></td>
+                    </tr>
+                    <tr>
+                        <td>Sponsor</td>
+                        <td id="sponsorP1"></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter</td>
+                        <td id="twitterP1"></td>
+                    </tr>
+                    <tr>
+                        <td>Youtube</td>
+                        <td id="youtubeP1"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3>Statistics</h3></div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Stat</td>
+                        <td>@p1</td>
+                        <td>@p2</td>
+                    </tr>
+                    <tr>
+                        <td>Set wins</td>
+                        <td>@p1SetWins</td>
+                        <td>@p2SetWins</td>
+                    </tr>
+                    <tr>
+                        <td>Latest Game</td>
+                        <td>@latest.ToLongDateString()</td>
+                        <td>@latestGame.Tournament.Name @latestGame.Position</td>
+                    </tr>
+                    <tr>
+                        <td>Best Stage</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Most Played Character</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Best Character</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">@ViewBag.Player2</div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <center>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg/600px-Default_profile_picture_%28male%29_on_Facebook.jpg" width="150" height="150" id="picP2"/>
+                    </center>
+                    <tr>
+                        <td>Name</td>
+                        <td id="nameP2"></td>
+                    </tr>
+                    <tr>
+                        <td>Sponsor</td>
+                        <td id="sponsorP2"></td>
+                    </tr>
+                    <tr>
+                        <td>Twitter</td>
+                        <td id="twitterP2"></td>
+                    </tr>
+                    <tr>
+                        <td>Youtube</td>
+                        <td id="youtubeP2"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading"><h3>Sets</h3></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>Player 1</td>
+                <td>Score 1</td>
+                <td>Score 2</td>
+                <td>Player 2</td>
+                <td>Tournament</td>
+                <td>Position</td>
+                <td>Date</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var match in Model)
+            {
+                <tr>
+                    <td>@match.Player1.Sponsor @match.Player1.Name</td>
+                    <td>@match.Score1</td>
+                    <td>@match.Score2</td>
+                    <td>@match.Player2.Sponsor @match.Player2.Name</td>
+                    <td>@match.Tournament.Name</td>
+                    <td>@match.Position</td>
+                    <td>@match.Date.ToLongDateString()</td>
+                    <td><button class="btn btn-primary" data-toggle="modal" data-target="#game-@match.Id">More info</button></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@foreach (var match in Model)
+{
+    match.Matches.Reverse();
+    <div id="game-@match.Id" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">@match.Tournament.Name @match.Position</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <td>@match.Player1.Name</td>
+                            <td>Character</td>
+                            <td>Stocks Remaining</td>
+                            <td>Stage</td>
+                            <td>Stocks Remaining</td>
+                            <td>Character</td>
+                            <td>@match.Player2.Name</td>
+                        </tr>
+                        </thead>
+                        @foreach (var game in match.Matches)
+                        {
+                            <tr>
+                                @if (game.StocksP1 > game.StocksP2)
+                                {
+                                    <td>✔</td>
+                                }
+                                else
+                                {
+                                <td></td>
+                                }
+                                <td>@CharacterConverter.GetChracterById(game.CharacterIdP1-1)</td>
+                                <td>@game.StocksP1</td>
+                                <td>@StageConverter.GetStageById(game.StageId)</td>
+                                <td>@game.StocksP2</td>
+                                <td>@CharacterConverter.GetChracterById(game.CharacterIdP2-1)</td>
+                                @if (game.StocksP2 > game.StocksP1)
+                                {
+                                    <td>✔</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+<div class="panel panel-primary">
+    <div class="panel-heading"><h2>Stages</h2></div>
+    <div class="panel-body">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>Stage</td>
+                <td>@p1 Wins</td>
+                <td>@p2 Wins</td>
+                <td>Total Played</td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (StageStat stage in ((StageMatchup)ViewBag.StagesP1).Stages)
+            {
+                <tr>
+                    <td>@StageConverter.GetStageById(stage.Id)</td>
+                    <td>@stage.WinCount</td>
+                    <td>@stage.LostCount</td>
+                    <td>@stage.TotalPlayed</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading"><h2>Characters</h2></div>
+    <div class="panel-body">
+        <h4>@p1</h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>Character</td>
+                <td>Wins</td>
+                <td>Losses</td>
+                <td>Total Played</td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (StageStat stage in ((StageMatchup) ViewBag.CharacterP1).Stages)
+            {
+                <tr>
+                    <td>@CharacterConverter.GetChracterById(stage.Id-1)</td>
+                    <td>@stage.WinCount</td>
+                    <td>@stage.LostCount</td>
+                    <td>@stage.TotalPlayed</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <h4>@p2</h4>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <td>Character</td>
+                <td>Wins</td>
+                <td>Losses</td>
+                <td>Total Played</td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (StageStat stage in ((StageMatchup) ViewBag.CharacterP2).Stages)
+            {
+                <tr>
+                    <td>@CharacterConverter.GetChracterById(stage.Id-1)</td>
+                    <td>@stage.WinCount</td>
+                    <td>@stage.LostCount</td>
+                    <td>@stage.TotalPlayed</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        ReadData(@latestGame.Player1.SmashggId, "P1");
+        ReadData(@latestGame.Player2.SmashggId, "P2");
+    });
+
+    function AddInfo(data, user) {
+        data = data.entities.player;
+        document.getElementById("name" + user).innerHTML = data.gamerTag;
+        if (data.images[0])
+            document.getElementById("pic" + user).src = data.images[0].url;
+        var prefix = "-";
+        if (data.prefix)
+            prefix = data.prefix;
+        document.getElementById("sponsor" + user).innerHTML = prefix;
+        var twitter = "-";
+        if (data.twitterHandle)
+            twitter = "@@" + data.twitterHandle;
+        document.getElementById("twitter" + user).innerHTML = twitter;
+        var youtube = "-";
+        if (data.youtube)
+            youtube = data.youtube;
+        document.getElementById("youtube" + user).innerHTML = youtube;
+    }
+    function ReadData(playerId, player) {
+        console.log(playerId);
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "http://localhost:54564/home/getplayerstats/" + playerId, true);
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState === 4 && xhttp.status === 200) {
+                var json = JSON.parse(xhttp.responseText);
+                console.log(json);
+                AddInfo(json, player);
+            }
+        }
+        xhttp.send();
+        
+    }
+
+</script>
+
+

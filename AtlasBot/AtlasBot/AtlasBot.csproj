@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="1.0.2" />
+    <PackageReference Include="Discord.Net.Commands" Version="1.0.2" />
+    <PackageReference Include="Discord.Net.Core" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\RiotWrapper\RiotWrapper\RiotWrapper.csproj" />
+    <ProjectReference Include="..\AmiiboRestHandler\AmiiboRestHandler.csproj" />
+    <ProjectReference Include="..\ChampionGGHandler\ChampionGGHandler.csproj" />
+    <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
+    <ProjectReference Include="..\KugorganeHammerHandler\KugorganeHammerHandler.csproj" />
+    <ProjectReference Include="..\MeleeHandler\MeleeHandler.csproj" />
+    <ProjectReference Include="..\OverwatchHandler\OverwatchHandler.csproj" />
+    <ProjectReference Include="..\Smash64Supplier\Smash64Supplier.csproj" />
+    <ProjectReference Include="..\SmashGgHandler\SmashGgHandler.csproj" />
+    <ProjectReference Include="..\SmashggTracker\SmashggTracker.csproj" />
+    <ProjectReference Include="..\SmashHandler\SmashHandler.csproj" />
+    <ProjectReference Include="..\SpeedRunCom\SpeedRunCom.csproj" />
+  </ItemGroup>
+
+</Project>
