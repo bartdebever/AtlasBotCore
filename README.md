@@ -1,3 +1,7 @@
+# How to Run/Test
+If you go into AtlasBot > DataLibrary> Static Data> OptionManager.cs
+There will be values that you can load in using either a JSON file or inputting the strings. There are currently no public databases for testing.
+
 # AtlasBotCore
 AtlasBot is a multi purpose gaming Discord Bot focussing on modularity and adapting to the demands of server owners.
 
