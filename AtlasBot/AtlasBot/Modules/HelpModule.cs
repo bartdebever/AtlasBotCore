@@ -19,7 +19,7 @@ namespace DiscordBot.Modules
     {
         [Command("")]
         [Summary("Shows all the commands available.")]
-        public async Task GetHelp([Optional][Remainder] string command)
+        public async Task GetHelp([Optional][Remainder][Summary("Gets either a list of commands or info about one specific command.")]string command)
         {
             if (!string.IsNullOrEmpty(command))
                 await GetHelpCommand(command);
@@ -63,7 +63,9 @@ namespace DiscordBot.Modules
             {
                 var builder = Builders.BaseBuilder(commandInfo.Name, "", Color.Blue, null, null);
                 var info = $"**Module: **{commandInfo.Module.Name}\n" +
-                           $"**Description: **{commandInfo.Summary}\n";
+                           $"**Description: **{commandInfo.Summary}\n" +
+                           $"**Full command: **-s {commandInfo.Name} ";
+                info = commandInfo.Parameters.Aggregate(info, (current, parameter) => current + (parameter.Name + " "));
                 foreach (var attribute in commandInfo.Attributes.Where(x=> x is AttributeWithValue))
                 {
                     var command = (AttributeWithValue) attribute;
@@ -71,6 +73,16 @@ namespace DiscordBot.Modules
                 }
                 if (!string.IsNullOrEmpty(info))
                     builder.AddField("Information", info);
+                var parameterInfo = default(string);
+                foreach (var parameter in commandInfo.Parameters)
+                {
+                    if (parameter.IsOptional)
+                        parameterInfo += "Optional ";
+                    parameterInfo += $"{parameter.Name}: {parameter.Summary}\n";
+                }
+
+                if (!string.IsNullOrEmpty(parameterInfo))
+                    builder.AddField("Parameters", parameterInfo);
                 await ReplyAsync("", embed: builder.Build());
             }
             else
