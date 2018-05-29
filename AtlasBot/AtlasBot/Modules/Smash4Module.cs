@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AtlasBot.EmbedBuilder;
 using AtlasBot.Preconditions;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
-using DiscordBot.Loggers;
+using AtlasBot.Loggers;
 using KugorganeHammerHandler;
 using KugorganeHammerHandler.Data_Types;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("Smash4")]
     public class Smash4Module : ModuleBase

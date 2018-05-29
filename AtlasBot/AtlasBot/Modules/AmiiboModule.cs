@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AmiiboRestHandler;
+using AtlasBot.EmbedBuilder;
 using AtlasBot.Preconditions;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("amiibo")]
     public class AmiiboModule:ModuleBase

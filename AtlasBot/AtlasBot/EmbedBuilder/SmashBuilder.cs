@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using SmashHandler;
 using SmashHandler.DataTypes;
 
-namespace DiscordBot.EmbedBuilder
+namespace AtlasBot.EmbedBuilder
 {
     public static class SmashBuilder
     {

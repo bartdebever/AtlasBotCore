@@ -5,12 +5,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AtlasBot.EmbedBuilder;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
 using OverwatchHandler;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("Overwatch")]
     class OverwatchModule : ModuleBase

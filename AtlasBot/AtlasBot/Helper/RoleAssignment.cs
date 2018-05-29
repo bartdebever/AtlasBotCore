@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 
-namespace DiscordBot.Helper
+namespace AtlasBot.Helper
 {
     public static class RoleAssignment
     {

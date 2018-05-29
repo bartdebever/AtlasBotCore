@@ -10,7 +10,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
-namespace DiscordBot.EmbedBuilder
+namespace AtlasBot.EmbedBuilder
 {
     public static class Builders
     {

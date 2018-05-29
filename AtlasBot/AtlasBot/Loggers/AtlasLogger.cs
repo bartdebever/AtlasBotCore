@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using AtlasBot.Loggers.Messages;
 using Discord;
 
 namespace AtlasBot.Loggers
 {
-    public static class DefaultLogger
+    public static class AtlasLogger
     {
-        public static Task Logger(LogMessage message)
+        public static void Log(ModuleLogMessage message)
         {
-            switch (message.Severity)
+            Log(message.Message, message.Module, message.Severity);
+        }
+        private static void Log(string message, string module, LogSeverity severity)
+        {
+            switch (severity)
             {
                 case LogSeverity.Critical:
                 case LogSeverity.Error:
@@ -28,16 +31,8 @@ namespace AtlasBot.Loggers
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     break;
             }
-            Console.WriteLine($"{DateTime.Now,-19} [{message.Severity,8}] {message.Source}: {message.Message} {message.Exception}");
+            Console.WriteLine($"{DateTime.Now.ToShortTimeString()} {module}: {message}");
             Console.ResetColor();
-
-            // If you get an error saying 'CompletedTask' doesn't exist,
-            // your project is targeting .NET 4.5.2 or lower. You'll need
-            // to adjust your project's target framework to 4.6 or higher
-            // (instructions for this are easily Googled).
-            // If you *need* to run on .NET 4.5 for compat/other reasons,
-            // the alternative is to 'return Task.Delay(0);' instead.
-            return Task.CompletedTask;
         }
     }
 }

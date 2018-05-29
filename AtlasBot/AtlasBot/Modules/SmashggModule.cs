@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 using AtlasBot.EmbedBuilder;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
 using Microsoft.EntityFrameworkCore;
 using SmashGgHandler;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("smashgg")]
     public class SmashggModule : ModuleBase

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AtlasBot.EmbedBuilder;
 using ChampionGGHandler;
 using DataLibrary;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("Championgg")]
     class ChampionGGModule : ModuleBase

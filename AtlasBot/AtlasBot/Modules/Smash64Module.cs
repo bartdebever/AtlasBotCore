@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
+using AtlasBot.EmbedBuilder;
 using Smash64Supplier;
 
 namespace AtlasBot.Modules

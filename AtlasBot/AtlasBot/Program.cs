@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AtlasBot.Loggers;
 using DataLibrary;
 using DataLibrary.Discord.Implemented;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordBot.Loggers;
-using DiscordBot.Modules;
+using AtlasBot.Modules;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RiotWrapper.DataTypes;
 
-namespace DiscordBot
+namespace AtlasBot
 {
     class Program
     {

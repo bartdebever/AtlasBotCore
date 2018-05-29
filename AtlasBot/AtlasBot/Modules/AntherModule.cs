@@ -4,14 +4,14 @@ using DataLibrary.Static_Data;
 using DataLibrary.Useraccounts.Implementation;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
-using DiscordBot.Helper;
+using AtlasBot.Helper;
 using SmashHandler;
 using SmashHandler.DataTypes;
 using System.Linq;
 using System.Threading.Tasks;
+using AtlasBot.EmbedBuilder;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("Anther")]
     class AntherModule : ModuleBase

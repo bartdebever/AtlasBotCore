@@ -11,10 +11,10 @@ using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordBot.EmbedBuilder;
+using AtlasBot.EmbedBuilder;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("Server")]
     [Summary("TODO")]

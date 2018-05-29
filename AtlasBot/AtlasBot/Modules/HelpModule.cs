@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using AtlasBot.Attributes;
+using AtlasBot.EmbedBuilder;
 using AtlasBot.Preconditions;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using DiscordBot.EmbedBuilder;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("help")]
     public class HelpModule : ModuleBase

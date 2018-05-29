@@ -7,7 +7,7 @@ using ChampionGGHandler;
 using ChampionGGHandler.DataTypes;
 using Discord;
 
-namespace DiscordBot.EmbedBuilder
+namespace AtlasBot.EmbedBuilder
 {
     public static class ChampionGGBuilder
     {

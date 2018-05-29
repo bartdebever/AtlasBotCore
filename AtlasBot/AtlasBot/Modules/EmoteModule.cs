@@ -9,10 +9,10 @@ using DataLibrary;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
+using AtlasBot.EmbedBuilder;
 using Microsoft.EntityFrameworkCore;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [RequireBotCommander]
     [Group("emote")]

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AtlasBot.Attributes;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
+using AtlasBot.EmbedBuilder;
 using MeleeHandler;
 
 namespace AtlasBot.Modules

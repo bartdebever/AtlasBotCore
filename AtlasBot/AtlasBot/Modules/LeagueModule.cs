@@ -3,7 +3,6 @@ using DataLibrary;
 using DataLibrary.Static_Data;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
 using RiotWrapper;
 using RiotWrapper.DataTypes;
 using System;
@@ -11,11 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AtlasBot.EmbedBuilder;
 using DataLibrary.Riot.Item;
 using Microsoft.EntityFrameworkCore;
 using RiotWrapper.Helpers;
 
-namespace DiscordBot.Modules
+namespace AtlasBot.Modules
 {
     [Group("lol")]
     class LeagueModule : ModuleBase

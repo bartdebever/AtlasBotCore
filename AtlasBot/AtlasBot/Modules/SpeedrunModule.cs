@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
-using DiscordBot.EmbedBuilder;
+using AtlasBot.EmbedBuilder;
 using SpeedRunCom;
 
 namespace AtlasBot.Modules
