@@ -97,5 +97,38 @@ namespace AtlasBot.Modules
 
         }
 
+        [Command("AddRoles")]
+        public async Task AddRoles()
+        {
+            var db = new DatabaseContext();
+            var server = db.Servers.Include(x => x.Options).ThenInclude(x => x.RoleEmotes).FirstOrDefault(x => x.ServerId == (long)Context.Guild.Id);
+            if (server != null)
+            {
+                var channels = Context.Guild.GetTextChannelsAsync().Result;
+                IMessage message = null;
+                foreach (var textChannel in channels)
+                {
+                    try
+                    {
+                        message = await textChannel.GetMessageAsync((ulong) server.Options.RoleEmoteMessageId);
+                        if (message != null)
+                            break;
+                    }
+                    catch
+                    {
+                        return;
+                    }
+                }
+                if (message is IUserMessage userMessage)
+                {
+                    foreach (var reaction in userMessage.Reactions)
+                    {
+                        
+                    }
+                }
+            }
+
+        }
+
     }
 }

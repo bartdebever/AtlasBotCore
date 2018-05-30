@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AtlasBot.Attributes;
 using Discord;
 using Discord.Commands;
 using AtlasBot.EmbedBuilder;
@@ -15,6 +16,10 @@ namespace AtlasBot.Modules
     {
         [Command("tierlist")]
         [Summary("Show the most recent Smash64 tierlist.")]
+        [Example("-s smash64 tierlist")]
+        [Creator("Bort")]
+        [Update("1 January 2018")]
+        [DataProvider("https://www.ssbwiki.com/tier_list ")]
         public async Task GetTierlist()
         {
             var builder = Builders.BaseBuilder("", "", Color.DarkerGrey,
@@ -27,6 +32,8 @@ namespace AtlasBot.Modules
 
         [Command("Character")]
         [Summary("Shows the statistics from a particular character. THIS IS A BETA FEATURE.")]
+        [Example("-s smash64 character Samus")]
+        [Creator("Bort")]
         public async Task GetCharacter([Remainder] string name)
         {
             var character = new _64Context().Characters.FirstOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));

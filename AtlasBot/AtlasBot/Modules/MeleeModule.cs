@@ -18,6 +18,7 @@ namespace AtlasBot.Modules
         [Example("-s Melee Character Fox")]
         [Command("character")]
         [Summary("View details of a Super Smash Bros Melee character by name.")]
+        [Update("30 May 2018")]
         [DataProvider("SmashLounge")]
         public async Task GetCharacter([Remainder] string name)
         {
@@ -53,6 +54,8 @@ namespace AtlasBot.Modules
         [Command("tech")]
         [Summary("Get details about a tech by name of the tech")]
         [Example("-melee tech waveshine")]
+        [Creator("Bort")]
+        [DataProvider("SmashLounge")]
         public async Task GetTech([Remainder] string name)
         {
             var tech = MeleeHandler.RequestHandler.GetTechnique(name);
@@ -98,6 +101,9 @@ namespace AtlasBot.Modules
 
         [Command("guide")]
         [Summary("Get a guide from the 2018 Melee Techs and Tricks Guides made by Third Chair")]
+        [Example("-s melee guide Fox")]
+        [Creator("Bort")]
+        [DataProvider("https://www.youtube.com/playlist?list=PLQRQYzKDzrDrv0I9N68Y-9efH2Jo3Vt-r")]
         public async Task GetGuide([Remainder] string name)
         {
             var client = new MeleeClient();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AtlasBot.Attributes;
 using AtlasBot.EmbedBuilder;
 using Discord;
 using Discord.Commands;
@@ -16,6 +17,9 @@ namespace AtlasBot.Modules
     {
         [Command("tournament")]
         [Summary("Get information about a tournament by name.")]
+        [Example("-s smashgg tournament smash summit 6")]
+        [Creator("Bort")]
+        [DataProvider("http://smash.gg")]
         public async Task GetInfo([Remainder] string name)
         {
             Discord.EmbedBuilder builder = null;
@@ -84,6 +88,9 @@ namespace AtlasBot.Modules
 
         [Command("result")]
         [Summary("Get top 10 per event by tournament name.")]
+        [Example("-s smashgg result smash summit 6")]
+        [Creator("Bort")]
+        [DataProvider("http://smash.gg")]
         public async Task GetResult([Remainder] string name)
         {
             var message = await ReplyAsync("Gathering Data... This may take a while for bigger tournaments");
@@ -129,37 +136,15 @@ namespace AtlasBot.Modules
                         {
                             var player1 = "";
                             var player2 = "";
-                            if (!string.IsNullOrEmpty(player[0].Prefix))
-                            {
-                                player1 = $"**{player[0].Prefix}** {player[0].GamerTag}";
-                            }
-                            else
-                            {
-                                player1 = $"{player[0].GamerTag}";
-                            }
-                            if (!string.IsNullOrEmpty(player[1].Prefix))
-                            {
-                                player2 = $"**{player[1].Prefix}** {player[1].GamerTag}";
-                            }
-                            else
-                            {
-                                player2 = $"{player[1].GamerTag}";
-                            }
+                            player1 = !string.IsNullOrEmpty(player[0].Prefix) ? $"**{player[0].Prefix}** {player[0].GamerTag}" : $"{player[0].GamerTag}";
+                            player2 = !string.IsNullOrEmpty(player[1].Prefix) ? $"**{player[1].Prefix}** {player[1].GamerTag}" : $"{player[1].GamerTag}";
 
                             placementInfo +=
                                 $"{seeds[0].Placement}: {player1} | {player2}\n";
                         }
                         else
                         {
-                            var player1 = "";
-                            if (!string.IsNullOrEmpty(player[0].Prefix))
-                            {
-                                player1 = $"**{player[0].Prefix}** {player[0].GamerTag}";
-                            }
-                            else
-                            {
-                                player1 = $"{player[0].GamerTag}";
-                            }
+                            var player1 = !string.IsNullOrEmpty(player[0].Prefix) ? $"**{player[0].Prefix}** {player[0].GamerTag}" : $"{player[0].GamerTag}";
                             if (player[0] != null) placementInfo += $"{seeds[i].Placement}: {player1}\n";
                         }
                         

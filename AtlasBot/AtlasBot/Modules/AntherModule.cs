@@ -9,6 +9,7 @@ using SmashHandler;
 using SmashHandler.DataTypes;
 using System.Linq;
 using System.Threading.Tasks;
+using AtlasBot.Attributes;
 using AtlasBot.EmbedBuilder;
 
 namespace AtlasBot.Modules
@@ -18,6 +19,8 @@ namespace AtlasBot.Modules
     {
         [Command("Info")]
         [Summary("Get info about an Anther's Ladder user by his/her username.")]
+        [Example("-s Anther Info BortTheBeaver")]
+        [Creator("Bort")]
         public async Task Info([Remainder, Summary("Username of the user needing to be queries")] string username)
         {
             try

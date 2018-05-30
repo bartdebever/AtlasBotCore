@@ -19,6 +19,9 @@ namespace AtlasBot.Modules
     {
         [Command("")]
         [Summary("Shows all the commands available.")]
+        [Example("-s help *or* -s help melee character")]
+        [Creator("Bort")]
+        [Update("30 May 2018")]
         public async Task GetHelp([Optional][Remainder][Summary("Gets either a list of commands or info about one specific command.")]string command)
         {
             if (!string.IsNullOrEmpty(command))
