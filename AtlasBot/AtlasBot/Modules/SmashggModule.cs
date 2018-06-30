@@ -88,20 +88,20 @@ namespace AtlasBot.Modules
 
         [Command("result")]
         [Summary("Get top 10 per event by tournament name.")]
-        [Example("-s smashgg result smash summit 6")]
+        [Example("\"-s smashgg result melee smashcon\"")]
         [Creator("Bort")]
         [DataProvider("http://smash.gg")]
-        public async Task GetResult([Remainder] string name)
+        public async Task GetResult([Summary("The game you want the results from")] string game, [Remainder] string name)
         {
             var message = await ReplyAsync("Gathering Data... This may take a while for bigger tournaments");
-            var embed = CachedEmbedContainer.GetEmbedByArgs("smashgg result " + name.ToLower());
-            if (embed != null)
-            {
-                await message.DeleteAsync();
-                await ReplyAsync("", embed: embed);
-                return;
-            }
-            Discord.EmbedBuilder builder = null;
+//            var embed = CachedEmbedContainer.GetEmbedByArgs("smashgg result " + name.ToLower());
+//            if (embed != null)
+//            {
+//                await message.DeleteAsync();
+//                await ReplyAsync("", embed: embed);
+//                return;
+//            }
+            Discord.EmbedBuilder builder;
             var tournament = RequestHandler.GetTournamentRoot(name);
             if (tournament.entities == null)
             {
@@ -110,6 +110,7 @@ namespace AtlasBot.Modules
                 await message.DeleteAsync();
                 return;
             }
+
             var bracketPhases = tournament.entities.phase.Where(x => x.groupCount == 1).ToList();
             var icon = tournament.entities.tournament.images.FirstOrDefault(x => x.type == "profile");
             string url = "";
@@ -119,39 +120,63 @@ namespace AtlasBot.Modules
             {
                 var phaseId = bracketPhase.id;
                 var selectedEvent = tournament.entities.Event.FirstOrDefault(x => x.id == bracketPhase.eventId);
+                if (selectedEvent == null || (!selectedEvent.name.ToLower().Contains(game.ToLower()) &&
+                    game.ToLower() != "all"))
+                    continue;
                 var group = tournament.entities.groups.FirstOrDefault(x => x.phaseId == phaseId);
+                if (group == null)
+                    continue;
                 var result = RequestHandler.GetResult(group.id);
                 var players = result.Entities.Player;
-                if (players != null && result.Entities.Seeds != null)
+                if (players == null || result.Entities.Seeds == null)
+                    continue;
+                var seedlist = result.Entities.Seeds.Where(x => x.Placement != null).ToList();
+                var seeds = seedlist.OrderBy(x => x.Placement).ToList(); //Results sorted by ranking
+                var playerCount = 10;
+                if (seeds.Count < playerCount)
+                    playerCount = seeds.Count;
+                string placementInfo = "";
+                int doublesPlacement = 1; //Position in doubles
+                bool doubleDoublePlacement = false; //If this position needs to be repeated
+                for (int i = 0; i < playerCount; i++)
                 {
-                    var seedlist = result.Entities.Seeds.Where(x => x.Placement != null).ToList();
-                    var seeds = seedlist.OrderBy(x => x.Placement).ToList(); //Results sorted by ranking
-                    int playerCount = 10;
-                    if (seeds.Count < playerCount) playerCount = seeds.Count;
-                    string placementInfo = "";
-                    for (int i = 0; i < playerCount; i++)
+                    var player = players.Where(x => Convert.ToInt64(x.EntrantId) == seeds[i].EntrantId).ToList();
+                    if (player.Count == 2)
                     {
-                        var player = players.Where(x => Convert.ToInt64(x.EntrantId) == seeds[i].EntrantId).ToList();
-                        if (player.Count == 2)
-                        {
-                            var player1 = "";
-                            var player2 = "";
-                            player1 = !string.IsNullOrEmpty(player[0].Prefix) ? $"**{player[0].Prefix}** {player[0].GamerTag}" : $"{player[0].GamerTag}";
-                            player2 = !string.IsNullOrEmpty(player[1].Prefix) ? $"**{player[1].Prefix}** {player[1].GamerTag}" : $"{player[1].GamerTag}";
+                        var player1 = !string.IsNullOrEmpty(player[0].Prefix) ? $"**{player[0].Prefix}** {player[0].GamerTag}" : $"{player[0].GamerTag}";
+                        var player2 = !string.IsNullOrEmpty(player[1].Prefix) ? $"**{player[1].Prefix}** {player[1].GamerTag}" : $"{player[1].GamerTag}";
 
-                            placementInfo +=
-                                $"{seeds[0].Placement}: {player1} | {player2}\n";
-                        }
-                        else
+                        placementInfo +=
+                            $"{doublesPlacement}: {player1} | {player2}\n";
+                        if (doublesPlacement < 4)
+                            doublesPlacement++;
+                        else if (doublesPlacement == 4)
                         {
-                            var player1 = !string.IsNullOrEmpty(player[0].Prefix) ? $"**{player[0].Prefix}** {player[0].GamerTag}" : $"{player[0].GamerTag}";
-                            if (player[0] != null) placementInfo += $"{seeds[i].Placement}: {player1}\n";
+                            doublesPlacement++;
+                            doubleDoublePlacement = true;
                         }
-                        
+
+                        else if (doublesPlacement > 4 && !doubleDoublePlacement)
+                        {
+                            doublesPlacement += 2;
+                            doubleDoublePlacement = true;
+                        }
+                        else if (doublesPlacement > 4)
+                        {
+                            doubleDoublePlacement = false;
+                        }
                     }
-                    if (!string.IsNullOrEmpty(placementInfo))
-                        builder.AddInlineField($"{selectedEvent.name} Results", placementInfo);
+                    else
+                    {
+                        var player1 = !string.IsNullOrEmpty(player[0].Prefix) ? $"**{player[0].Prefix}** {player[0].GamerTag}" : $"{player[0].GamerTag}";
+                        if (player[0] != null) placementInfo += $"{seeds[i].Placement}: {player1}\n";
+
+                    }
+
                 }
+                if (!string.IsNullOrEmpty(placementInfo))
+                    builder.AddInlineField($"{selectedEvent.name} Results", placementInfo);
+
 
             }
             var tournamentDate = new DateTime(1970, 1, 1, 0, 0, 0);
