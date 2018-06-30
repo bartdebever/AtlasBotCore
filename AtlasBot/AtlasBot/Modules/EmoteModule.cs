@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -106,13 +107,29 @@ namespace AtlasBot.Modules
             {
                 var channels = Context.Guild.GetTextChannelsAsync().Result;
                 IMessage message = null;
-                foreach (var textChannel in channels)
+                foreach (var textChannel in channels) //Can't look for the message by Id so need to search all channels...
                 {
-                    try
+                    try //Can't download messages in a channel we don't have permission in, will throw an exception
                     {
                         message = await textChannel.GetMessageAsync((ulong) server.Options.RoleEmoteMessageId);
-                        if (message != null)
-                            break;
+                        if (message == null) continue;
+                        var reactionList = ((IUserMessage) message).Reactions;
+                        foreach (var reaction in reactionList) //Go through all reactions posted on the message
+                        {
+                            var users = await ((IUserMessage) message).GetReactionUsersAsync(reaction.Key.Name);  //Get all users that reacted with this emote
+                            if (!(reaction.Key is GuildEmote emote)) continue;                                    //Make sure it isn't some random emote
+                            var roleId = server.Options.RoleEmotes.FirstOrDefault(x => x.Emote == (long) emote.Id); //Find the role that belongs to this emote
+                            if (roleId == null) continue;
+                            var role = Context.Guild.GetRole((ulong) roleId.DiscordRole); //Get the role from the server
+                            if (role == null) continue;
+                            foreach (var user in users) //Go through all users that reacted with the emote
+                            {
+                                if(user is IGuildUser guildUser && !guildUser.RoleIds.Contains(role.Id)) //Check if the user does not have the role
+                                    await guildUser.AddRoleAsync(role); //Add the role to the user!
+                            }
+                        }
+
+                        break;
                     }
                     catch
                     {

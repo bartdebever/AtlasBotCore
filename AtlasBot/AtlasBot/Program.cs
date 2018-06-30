@@ -164,7 +164,7 @@ namespace AtlasBot
                                     ((IGuildChannel)arg3.Channel).Guild.GetRole((ulong)roleEmote.DiscordRole);
                                 savedRoles.Add(role);
                             }
-                            ((IGuildUser)arg3.User.Value).RemoveRoleAsync((role));
+                            ((IGuildUser)arg3.User.Value).RemoveRoleAsync((role));   
                         }
                         catch { }
                     }
